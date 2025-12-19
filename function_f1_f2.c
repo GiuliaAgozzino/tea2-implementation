@@ -32,25 +32,7 @@ uint8_t f1(uint8_t nibble[8]){
         };
             return result;
 };
-uint8_t f1(uint8_t nibble[8]){
-        uint8_t result = 0;
-        for(int i=0; i<8; i++){
-            int row = i;
-            int col = nibble[i];
-            result = (result << 1) | truth_table_f1[row][col];
-        };
-            return result;
-};
-uint8_t f1(uint8_t nibble[8]){
-        uint8_t result = 0;
-        for(int i=0; i<8; i++){
-            int row = i;
-            int col = nibble[i];
-            result = (result << 1) | truth_table_f1[row][col];
-        };
-            return result;
-};
-uint8_t f1(uint8_t nibble[8]){
+uint8_t f2(uint8_t nibble[8]){
         uint8_t result = 0;
         for(int i=0; i<8; i++){
             int row = i;
@@ -59,6 +41,7 @@ uint8_t f1(uint8_t nibble[8]){
         };
             return result;
 };
+
 
 void stampaByte(uint8_t n) {
     for (int i = 7; i >= 0; i--) {
