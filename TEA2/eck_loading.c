@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../utils.h"
 
 void eck_loading(uint80_t key, uint8_t K[10]) {
  

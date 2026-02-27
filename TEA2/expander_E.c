@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../utils.h"
 
 int first_two_bits[][2] = {
     {1, 2}, {2, 3}, {3, 4}, {4, 5},
