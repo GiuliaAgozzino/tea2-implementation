@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <inttypes.h>
-typedef struct {
-    uint64_t high;  // bit 79..16
-    uint16_t low;   // bit 15..0
-} uint80_t;
+#include <utils.h>
+
 
 void split_key_80bit(uint80_t key, uint8_t K[10]) {
  
