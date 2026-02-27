@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <utils.h>
-
+#include "utils.h"
 
 uint80_t tb5(uint80_t ck, uint16_t cn, uint8_t cc, uint16_t la) {
     uint80_t s;

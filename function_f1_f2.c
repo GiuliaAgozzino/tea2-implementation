@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
+#include "utils.h"
 
 uint8_t truth_table_f1[8][16] ={
       {1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1},

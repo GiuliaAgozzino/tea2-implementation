@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <inttypes.h>
-#include <utils.h>
+#include "utils.h"
 
-
-void split_key_80bit(uint80_t key, uint8_t K[10]) {
+void eck_loading(uint80_t key, uint8_t K[10]) {
  
     for (int i = 0; i < 8; i++) {
         K[i] = (key.high >> (56 - 8*i)) & 0xFF;

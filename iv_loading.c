@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
+#include "utils.h"
 
 const uint32_t mask = 0x5A6E3278;
 
