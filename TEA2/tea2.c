@@ -24,6 +24,8 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[] ) {
          uint8_t new_R3 = F_R4R3 ^ R[2]
          uint8_t new_R0 = BP_R5 ^ R[2] ^ F_R1R0
 
+         uin
+
 
 
 
