@@ -20,7 +20,7 @@ uint8_t lookup_table[16][16] = {
 
 };
 
-uint8_t permutation_BP(uint8_t input) {
+uint8_t permutation_P(uint8_t input) {
     
     uint8_t output = lookup_table[(input >> 4) & 0x0f][input & 0x0f];
     
@@ -29,7 +29,7 @@ uint8_t permutation_BP(uint8_t input) {
 
 void main() {
     uint8_t input = 0x98;
-    uint8_t output = permutation_BP(input);
+    uint8_t output = permutation_P(input);
     printf("Numero in esadecimale: %X\n", output);
 
 
