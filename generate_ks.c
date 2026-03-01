@@ -29,7 +29,7 @@ uint80_t hex_to_uint80(const char *s) {
 
 int main(int argc, char *argv[]) {
 
-    if (argc != 10) {
+    if (argc != 11) {
         printf("Uso: ./programma CK ts fn mn hnf dir cc cn la\n"
                "  CK:  chiave di cifratura (hex, 80 bit)\n"
                "  ts:  timeslot        [1-4]\n"
@@ -39,7 +39,8 @@ int main(int argc, char *argv[]) {
                "  dir: direction       [0-1]\n"
                "  cc:  colour code     [0-63]\n"
                "  cn:  carrier number  [0-4095]\n"
-               "  la:  location area   [0-16383]\n");
+               "  la:  location area   [0-16383]\n"
+               "  numero di byte di key stream richiesto [>= 1]\n");
         return 1;
     }
 
@@ -96,6 +97,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    int num_byte_ks = atoi(argv[10]);
+    if (num_byte_ks < 1) {
+        printf("Errore: numero di byte di key stream richiesto deve essere almeno 1\n");
+        return 1;
+    }
+
     uint80_t ck = hex_to_uint80(argv[1]);
     ivStruct ivComponents = {ts, fn, mn, hnf, dir};
 
@@ -107,6 +114,10 @@ int main(int argc, char *argv[]) {
 
     uint8_t K[10];
     eck_loading(eck, K);
+    
+    uint8_t ks[num_byte_ks];
+    tea2(num_byte_ks, R, K, ks);
+   
 
     return 0;
 }
