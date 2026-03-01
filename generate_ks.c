@@ -118,6 +118,13 @@ int main(int argc, char *argv[]) {
     uint8_t ks[num_byte_ks];
     tea2(num_byte_ks, R, K, ks);
    
+    printf("Key stream generato:\n");
 
+    for (int i = 0; i < num_byte_ks; i++) {
+    printf("%02X", ks[i]);
+   }
+    
+    printf("\n");
+    
     return 0;
 }
