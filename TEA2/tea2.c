@@ -27,11 +27,11 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]) {
             uint8_t new_R3 = R[2] ^ F2_R4R3;
 
             // shift registro chiave
-            memmove(K, K + 1, 9);
-            K[9] = new_K0;
+           memmove(K + 1, K, 9);
+           K[0] = new_K0;
 
             // shift registro output
-            memmove(R, R + 1, 7);
+            memmove(R + 1, R, 7);
             R[0] = new_R0;
             R[3] = new_R3;
         }
