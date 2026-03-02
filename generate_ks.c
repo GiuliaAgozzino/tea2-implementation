@@ -1,20 +1,30 @@
 #include "utils.h"
 
-uint32_t formIV(ivStruct *iv) {
-    return ((iv->ts - 1)
-          | (iv->fn  << 2)
-          | (iv->mn  << 7)
-          | ((iv->hnf & 0x7FFF) << 13)
-          | (iv->dir << 28));
+uint32_t formIV(ivStruct iv) {
+
+    // Combina i componenti dell'IV in un unico numero a 32 bit
+    return ((iv.ts - 1)
+          | (iv.fn  << 2)
+          | (iv.mn  << 7)
+          | ((iv.hnf & 0x7FFF) << 13)
+          | (iv.dir << 28));
 }
 
 uint80_t hex_to_uint80(const char *s) {
+
+    // Rimuove eventuale prefisso "0x" o "0X"
     if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
         s += 2;
 
     uint80_t result = 0;
+
+    // Continua a leggere fino alla fine della stringa
     while (*s) {
+
+        // Shift a sinistra di 4 bit per fare spazio al nuovo nibble
         result <<= 4;
+
+        // Converte il carattere esadecimale in un valore numerico
         if      (*s >= '0' && *s <= '9') result |= *s - '0';
         else if (*s >= 'a' && *s <= 'f') result |= *s - 'a' + 10;
         else if (*s >= 'A' && *s <= 'F') result |= *s - 'A' + 10;
@@ -40,12 +50,14 @@ int main(int argc, char *argv[]) {
                "  cc:  colour code     [0-63]\n"
                "  cn:  carrier number  [0-4095]\n"
                "  la:  location area   [0-16383]\n"
-               "  numero di byte di key stream richiesto [>= 1]\n");
+               "  numero di byte di key stream richiesto [>= 1]\n"
+            "\nNota: CK va fornita in esadecimale (20 cifre hex, 80 bit).\n"
+       "      Il prefisso 0x/0X e' opzionale. Es: 0xA3F1...  oppure  A3F1...\n");
         return 1;
     }
-
-    if (strlen(argv[1]) > 22) {
-        printf("Errore: chiave di cifratura deve essere un numero a 80 bit\n");
+    
+    if (strlen(argv[1]) > 22 || strlen(argv[1]) < 20) {
+        printf("Errore: chiave di cifratura deve essere un numero a 80 bit nel formato 0x\n");
         return 1;
     }
 
@@ -106,15 +118,19 @@ int main(int argc, char *argv[]) {
     uint80_t ck = hex_to_uint80(argv[1]);
     ivStruct ivComponents = {ts, fn, mn, hnf, dir};
 
+
+    // Generazione chiave di cifratura tramite l'agoritmo TB5 e composizione IV
     uint80_t eck = tb5(ck, cn, cc, la);
-    uint32_t iv  = formIV(&ivComponents);
+    uint32_t iv  = formIV(ivComponents);
 
+    // Creo due array per il registro di chiave e il registro di output, e li inizializzo con ECK e IV 
     uint8_t R[8];
-    iv_loading(iv, R);
-
     uint8_t K[10];
+
+    iv_loading(iv, R);
     eck_loading(eck, K);
     
+    // Generazione key stream
     uint8_t ks[num_byte_ks];
     tea2(num_byte_ks, R, K, ks);
    
