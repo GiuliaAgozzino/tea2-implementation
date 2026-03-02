@@ -28,7 +28,7 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]) {
             uint8_t new_R3 = R[2] ^ F2_R4R3;
 
             // byte di key stream
-            new_ks = R[7]
+            new_ks = R[7];
 
             // shift registro chiave
            memmove(K + 1, K, 9);

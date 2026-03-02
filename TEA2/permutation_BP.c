@@ -13,19 +13,4 @@ uint8_t permutation_BP(uint8_t input) {
     return output;
 }
 
-void stampaByte(uint8_t n) {
-    for (int i = 7; i >= 0; i--) {
-        printf("%d", (n >> i) & 1);
-    }
-    printf("\n");
-}
 
-int main() {
-    uint8_t input = 0b10011011;
-    uint8_t output = permutation_BP(input);
-
-    printf("Output: ");
-    stampaByte(output);
-
-    return 0;
-}

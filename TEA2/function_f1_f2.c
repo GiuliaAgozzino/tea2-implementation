@@ -42,14 +42,3 @@ uint8_t f2(uint8_t nibble[8]){
 };
 
 
-void stampaByte(uint8_t n) {
-    for (int i = 7; i >= 0; i--) {
-        printf("%d", (n >> i) & 1);
-    }
-    printf("\n");
-}
-void main(){
-    uint8_t input[8] = {0b1111, 0b0011, 0b1010, 0b1011, 0b0111, 0b0101, 0b0110, 0b0001};
-    uint8_t output = f1(input);
-      stampaByte(output);
-}

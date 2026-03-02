@@ -26,11 +26,3 @@ uint8_t permutation_P(uint8_t input) {
     
     return output;
 }
-
-void main() {
-    uint8_t input = 0x98;
-    uint8_t output = permutation_P(input);
-    printf("Numero in esadecimale: %X\n", output);
-
-
-}

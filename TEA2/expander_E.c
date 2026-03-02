@@ -10,7 +10,6 @@ int second_two_bits[][2] = {
     {3, 4}, {4, 5}, {5, 6}, {6, 7}
 };
 
-void stampaByte(uint8_t n);
 
 void expander_E(uint8_t first_byte, uint8_t second_byte, uint8_t result[8]) {
     for (int i = 0; i < 8; i++) {
@@ -24,24 +23,3 @@ void expander_E(uint8_t first_byte, uint8_t second_byte, uint8_t result[8]) {
     }
 }
 
-void stampaByte(uint8_t n) {
-    for (int i = 7; i >= 0; i--) {
-        printf("%d", (n >> i) & 1);
-    }
-    printf("\n");
-}
-
-int main() {
-    uint8_t first_byte = 0b11001100;
-    uint8_t second_byte = 0b10100110;
-    uint8_t result[8];
-
-    expander_E(first_byte, second_byte, result);
-
-    int lunghezza = sizeof(result) / sizeof(result[0]);
-    for (int i = 0; i < lunghezza; i++) {
-        stampaByte(result[i]);
-    }
-
-    return 0;
-}
