@@ -5,7 +5,7 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]) {
      
     // 50 round di inizializzazzione più 1 round per la generazione del primo byte di key stream
     uint32_t skip_rounds = 51;  
-    uint8_t new_ks;
+  
     for (int i = 0; i < num_byte_ks; i++) {
 
         for (int j = 0; j < skip_rounds; j++) {
@@ -27,8 +27,7 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]) {
             uint8_t new_R0 = R[7] ^ BP_R5 ^ R[2] ^ F1_R1R0 ^ new_K0;
             uint8_t new_R3 = R[2] ^ F2_R4R3;
 
-            // byte di key stream
-            new_ks = R[7];
+    
 
             // shift registro chiave
            memmove(K + 1, K, 9);
@@ -40,7 +39,7 @@ void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]) {
             R[3] = new_R3;
         }
 
-        ks[i] = new_ks;
+        ks[i] = R[7];
         
         // Terminata la fase di inizializzazione, si genera un byte di key stream ad ogni 19 round
         skip_rounds = 19;
