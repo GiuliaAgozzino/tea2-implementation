@@ -1,6 +1,6 @@
 #include "utils.h"
 
-uint32_t formIV(ivStruct iv) {
+uint32_t formIVTEA2(ivStructTEA2 iv) {
 
     // Combina i componenti dell'IV in un unico numero a 32 bit
     return ((iv.ts - 1)
@@ -8,6 +8,20 @@ uint32_t formIV(ivStruct iv) {
           | (iv.mn  << 7)
           | ((iv.hnf & 0x7FFF) << 13)
           | (iv.dir << 28));
+}
+
+uint80_t formIVTEA5(ivStructTEA5 iv) {
+    return (uint80_t)(iv.ts - 1)                  
+         | ((uint80_t)iv.fn << 2)                 
+         | ((uint80_t)iv.mn << 7)                
+         | ((uint80_t)(iv.hnf & 0xFFFF) << 13)   
+         | ((uint80_t)(iv.dir & 0x1) << 29)      
+         | ((uint80_t)(iv.subs & 0x1) << 30)     
+         | ((uint80_t)(iv.cn  & 0x0FFF) << 31)   
+         | ((uint80_t)(iv.la  & 0x3FFF) << 43)    
+         | ((uint80_t)(iv.cc  & 0x3F) << 57)      
+         | ((uint80_t)(iv.pdu & 0xFF) << 63);     
+         // IV(71-79) = 0 
 }
 
 uint80_t hex_to_uint80(const char *s) {
@@ -40,7 +54,8 @@ uint80_t hex_to_uint80(const char *s) {
 int main(int argc, char *argv[]) {
 
     if (argc != 11) {
-        printf("Uso: ./programma CK ts fn mn hnf dir cc cn la\n"
+        printf("Uso: ./programma TEA2/TEA5 CK ts fn mn hnf dir cc cn la nByte\n"
+               "  TEA2 o TEA5: quale algoritmo usare la la generazione del key stream)\n"
                "  CK:  chiave di cifratura (hex, 80 bit)\n"
                "  ts:  timeslot        [1-4]\n"
                "  fn:  frame           [1-18]\n"
@@ -56,66 +71,66 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
-    if (strlen(argv[1]) > 22 || strlen(argv[1]) < 20) {
+    if (strlen(argv[2]) > 22 || strlen(argv[2]) < 20) {
         printf("Errore: chiave di cifratura deve essere un numero a 80 bit nel formato 0x\n");
         return 1;
     }
 
-    int ts = atoi(argv[2]);
+    int ts = atoi(argv[3]);
     if (ts < 1 || ts > 4) {
         printf("Errore: timeslot deve essere compreso tra 1 e 4\n");
         return 1;
     }
 
-    int fn = atoi(argv[3]);
+    int fn = atoi(argv[4]);
     if (fn < 1 || fn > 18) {
         printf("Errore: frame deve essere compreso tra 1 e 18\n");
         return 1;
     }
 
-    int mn = atoi(argv[4]);
+    int mn = atoi(argv[5]);
     if (mn < 1 || mn > 60) {
         printf("Errore: multiframe deve essere compreso tra 1 e 60\n");
         return 1;
     }
 
-    int hnf = atoi(argv[5]);
+    int hnf = atoi(argv[6]);
     if (hnf < 0 || hnf > 0xFFFF) {
         printf("Errore: hyperframe deve essere compreso tra 0 e 65535\n");
         return 1;
     }
 
-    int dir = atoi(argv[6]);
+    int dir = atoi(argv[7]);
     if (dir != 0 && dir != 1) {
         printf("Errore: direction deve essere 0 o 1\n");
         return 1;
     }
 
-    int cc = atoi(argv[7]);
+    int cc = atoi(argv[8]);
     if (cc < 0 || cc > 0x3F) {
         printf("Errore: colour code deve essere compreso tra 0 e 63\n");
         return 1;
     }
 
-    int cn = atoi(argv[8]);
+    int cn = atoi(argv[9]);
     if (cn < 0 || cn > 0x0FFF) {
         printf("Errore: carrier number deve essere compreso tra 0 e 4095\n");
         return 1;
     }
 
-    int la = atoi(argv[9]);
+    int la = atoi(argv[10]);
     if (la < 0 || la > 0x3FFF) {
         printf("Errore: location area identifier deve essere compreso tra 0 e 16383\n");
         return 1;
     }
 
-    int num_byte_ks = atoi(argv[10]);
+    int num_byte_ks = atoi(argv[11]);
     if (num_byte_ks < 1) {
         printf("Errore: numero di byte di key stream richiesto deve essere almeno 1\n");
         return 1;
     }
 
-    uint80_t ck = hex_to_uint80(argv[1]);
+    uint80_t ck = hex_to_uint80(argv[2]);
     ivStruct ivComponents = {ts, fn, mn, hnf, dir};
 
 

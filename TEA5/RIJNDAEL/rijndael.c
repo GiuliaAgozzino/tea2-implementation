@@ -1,6 +1,5 @@
 #include "rijndael.h"
 #include <stdint.h>
-
 #define NR 14
 #define NB 8
 
@@ -18,13 +17,14 @@ static void stateToBytes(const uint8_t state[4][8], uint8_t out[32]) {
             out[r + 4*c] = state[r][c];
 }
 
-// Estrae la round key dal W espanso
+// Recupera la chiave di round
 static void getRoundKey(uint8_t W[120][4], int round, uint8_t rk[4][8]) {
     for (int c = 0; c < NB; c++)
         for (int r = 0; r < 4; r++)
             rk[r][c] = W[round * NB + c][r];
 }
 
+// Funzione di cifratura 
 void rijndael_encrypt(const uint8_t plaintext[32], const uint8_t key[24], uint8_t ciphertext[32]) {
     uint8_t state[4][8];
     uint8_t W[120][4];
@@ -33,7 +33,7 @@ void rijndael_encrypt(const uint8_t plaintext[32], const uint8_t key[24], uint8_
     keyExpansion(key, W);
     bytesToState(plaintext, state);
 
-    // Round 0: solo AddRoundKey
+    // Operazione di whitening iniziale
     getRoundKey(W, 0, rk);
     addRoundKey(state, rk);
 
@@ -46,7 +46,7 @@ void rijndael_encrypt(const uint8_t plaintext[32], const uint8_t key[24], uint8_
         addRoundKey(state, rk);
     }
 
-    // Round finale: senza MixColumns
+    // Round finale
     subByte(state);
     shiftRows(state);
     getRoundKey(W, NR, rk);
@@ -55,6 +55,7 @@ void rijndael_encrypt(const uint8_t plaintext[32], const uint8_t key[24], uint8_
     stateToBytes(state, ciphertext);
 }
 
+// Funzione di decifratura (per i test)
 void rijndael_decrypt(const uint8_t ciphertext[32], const uint8_t key[24], uint8_t plaintext[32]) {
     uint8_t state[4][8];
     uint8_t W[120][4];
@@ -63,11 +64,11 @@ void rijndael_decrypt(const uint8_t ciphertext[32], const uint8_t key[24], uint8
     keyExpansion(key, W);
     bytesToState(ciphertext, state);
 
-    // Round finale inverso
+   
     getRoundKey(W, NR, rk);
     addRoundKey(state, rk);
 
-    // Round NR-1..1
+ 
     for (int round = NR - 1; round >= 1; round--) {
         invShiftRows(state);
         invSubByte(state);
@@ -76,7 +77,7 @@ void rijndael_decrypt(const uint8_t ciphertext[32], const uint8_t key[24], uint8
         invMixColumns(state);
     }
 
-    // Round 0
+    
     invShiftRows(state);
     invSubByte(state);
     getRoundKey(W, 0, rk);
