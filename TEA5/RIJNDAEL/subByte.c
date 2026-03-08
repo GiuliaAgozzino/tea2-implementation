@@ -1,5 +1,5 @@
 #include "rijndael_tables.h"
-
+#include <stdint.h>
 
 void subByte(uint8_t state[4][8]) {
     for (int i = 0; i < 4; i++) {

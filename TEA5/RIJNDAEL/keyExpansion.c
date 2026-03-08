@@ -1,12 +1,17 @@
+#include <stdint.h>
+#include "rijndael_tables.h"
+
 #define NK 6
 #define NB 8
 #define NR 14
 #define WORDS (NB*(NR+1))
 
-const uint8_t Rcon[] =
-{
-0x00,0x01,0x02,0x04,0x08,
-0x10,0x20,0x40,0x80,0x1B,0x36
+const uint8_t Rcon[] = {
+    0x00,                          
+    0x01, 0x02, 0x04, 0x08, 0x10, 
+    0x20, 0x40, 0x80, 0x1B, 0x36, 
+    0x6C, 0xD8, 0xAB, 0x4D, 0x9A, 
+    0x2F, 0x5E, 0xBC, 0x63        
 };
 void subWord(uint8_t word[4]){
 
@@ -26,9 +31,8 @@ void rotWord(uint8_t word[4]){
 }
 
 
-void keyExpansion(const uint8_t key[24], uint8_t W[120][4])
-{
-    // 1. Copia chiave iniziale
+void keyExpansion(const uint8_t key[24], uint8_t W[120][4]){
+  
     for(int i=0;i<NK;i++){
         for(int j=0;j<4;j++){
             W[i][j] = key[i*4 + j];

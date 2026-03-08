@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 void shiftRows(uint8_t state[4][8]) {
 
     int shift[4] = {0, 1, 3, 4};

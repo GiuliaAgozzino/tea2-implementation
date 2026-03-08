@@ -1,5 +1,5 @@
 #include "rijndael_tables.h"
-
+#include <stdint.h>
 
 void mixColumns(uint8_t state[4][8]) {
 

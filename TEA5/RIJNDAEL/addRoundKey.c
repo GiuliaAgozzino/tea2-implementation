@@ -1,3 +1,4 @@
+#include <stdint.h>
 
 void addRoundKey(uint8_t state[4][8], uint8_t round_key[4][8]){
 
