@@ -1,12 +1,12 @@
 #include "../utils.h"
-#include "rijndael.h"   
+#include "RIJNDAEL/rijndael.h" 
 #include <string.h>
 #include <stdint.h>
 
 
 
 
-void tea5(uint32_t num_byte_ks, const uint8_t ck[24], const uint80_t iv, uint8_t ks[]){
+void tea5(uint32_t num_byte_ks,  uint8_t ck[24],  uint80_t iv, uint8_t ks[]){
 
     uint8_t ivx[24];
     iv_expander(iv, ivx);
@@ -17,6 +17,7 @@ void tea5(uint32_t num_byte_ks, const uint8_t ck[24], const uint80_t iv, uint8_t
     f(ck, ivx, ckm, ivm);
 
     int num_blocks = ((num_byte_ks * 8) + 255) / 256;  // ceil(length / 256 bit)
+    int length = num_byte_ks * 8;
 
     for (int j = 0; j < num_blocks; j++) {
 

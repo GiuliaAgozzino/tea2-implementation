@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdint.h>
 
+
 typedef __uint128_t uint80_t;
 
 typedef struct {
@@ -34,9 +35,10 @@ uint80_t tb5(uint80_t ck, uint16_t cn, uint8_t cc, uint16_t la);
 void iv_loading(uint32_t iv, uint8_t R[8]);
 void eck_loading(uint80_t eck, uint8_t K[10]);
 
-// Funzione TEA2
+// Funzione TEA2 TEA5
 void tea2(uint32_t num_byte_ks, uint8_t R[8], uint8_t K[10], uint8_t ks[]);
-void te5(uint32_t num_byte_ks, const uint8_t ck[], const uint80_t iv, uint8_t ks[]);
+void tea5(uint32_t num_byte_ks,  uint8_t ck[24],  uint80_t iv, uint8_t ks[]);
+
 
 // Funzioni di supporto TEA2
 uint8_t permutation_P(uint8_t input);

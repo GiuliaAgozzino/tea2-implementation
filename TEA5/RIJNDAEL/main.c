@@ -5,7 +5,7 @@
 
 //TEST Rijndael-256 (NB=8, NK=6, NR=14)
 
-
+/*
 // Stampa in esadecimale
 void print_hex(const char *label, const uint8_t *buf, int len) {
     printf("%s: ", label);
@@ -67,3 +67,5 @@ uint8_t key[24] = {
 
     return 0;
 }
+
+*/
