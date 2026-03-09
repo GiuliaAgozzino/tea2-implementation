@@ -21,7 +21,7 @@ uint8_t truth_table_f[16][16] = {
 
 };
 
-void f(uint8_t ck[24], uint8_t ivx[24], uint8_t ckm[24], uint8_t ivm[24]){
+void f(const uint8_t ck[24], const uint8_t ivx[24], uint8_t ckm[24], uint8_t ivm[24]){
 
     for (int i = 0; i < 24; i++) {
 
