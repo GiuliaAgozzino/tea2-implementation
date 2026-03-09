@@ -1,5 +1,6 @@
 #include "utils.h"
 
+//dichiarazioni 
 void generateKeyStreamTEA2(
     uint8_t ks[],
      char *ck_hex,
