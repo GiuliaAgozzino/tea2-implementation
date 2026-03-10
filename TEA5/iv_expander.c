@@ -20,22 +20,30 @@ uint8_t truth_table[256] = {
 };
 
 void iv_expander(uint80_t iv, uint8_t ivx[24]) {
-    
+
     uint8_t temp[10];
 
+    // Caricamento iniziale dei 10 byte dell'IV
     for (int i = 0; i < 10; i++) {
-        temp[9 - i] = (iv >> (8 * i)) & 0xFF;
+        temp[i] = (iv >> (8 * (9 - i))) & 0xFF;
     }
 
+    int head = 0; // indice del primo byte valido
+
     for (int i = 0; i < 34; i++) {
-        uint8_t next_byte = temp[0] ^ temp[1] ^ truth_table[temp[9]];
 
-        memmove(temp, temp + 1, 9);
-        temp[9] = next_byte;
+        uint8_t b0 = temp[head];
+        uint8_t b1 = temp[(head + 1) % 10];
+        uint8_t b9 = temp[(head + 9) % 10];
 
-        if (i >= 10){
-            ivx[i-10] = next_byte;
-        }    
-    
+        uint8_t next_byte = b0 ^ b1 ^ truth_table[b9];
+
+        // aggiorna il ring buffer
+        head = (head + 1) % 10;
+        temp[(head + 9) % 10] = next_byte;
+
+        if (i >= 10) {
+            ivx[i - 10] = next_byte;
+        }
     }
 }
