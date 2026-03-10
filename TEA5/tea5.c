@@ -39,12 +39,5 @@ void tea5(uint32_t num_byte_ks, const uint8_t ckm[24], const  uint8_t ivm[24], u
        memcpy(ks + offset, cipher, bytes_copy);
     }
 
-    
-    if(length % 8 != 0){
-
-        int last_byte_index = (length - 1) / 8;
-        int unused_bits = 8 - (length % 8);
-
-        ks[last_byte_index] &= (0xFF << unused_bits);
-    }
+   
 }
