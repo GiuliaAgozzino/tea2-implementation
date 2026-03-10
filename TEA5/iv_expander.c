@@ -23,7 +23,7 @@ void iv_expander(uint80_t iv, uint8_t ivx[24]) {
 
     uint8_t temp[10];
 
-    // Caricamento iniziale dei 10 byte dell'IV
+    // caricamento iniziale dei 10 byte dell'IV
     for (int i = 0; i < 10; i++) {
         temp[i] = (iv >> (8 * (9 - i))) & 0xFF;
     }
@@ -38,7 +38,6 @@ void iv_expander(uint80_t iv, uint8_t ivx[24]) {
 
         uint8_t next_byte = b0 ^ b1 ^ truth_table[b9];
 
-        // aggiorna il ring buffer
         head = (head + 1) % 10;
         temp[(head + 9) % 10] = next_byte;
 

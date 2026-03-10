@@ -6,18 +6,10 @@
 
 
 
-void tea5(uint32_t num_byte_ks,  const uint8_t ck[24],  const uint80_t iv, uint8_t ks[]){
+void tea5(uint32_t num_byte_ks, const uint8_t ckm[24], const  uint8_t ivm[24], uint8_t ks[]){
 
-    uint8_t ivx[24];
-    iv_expander(iv, ivx);
-
-    uint8_t ckm[24];
-    uint8_t ivm[24];
-
-    f(ck, ivx, ckm, ivm);
-
-    int num_blocks = ((num_byte_ks * 8) + 255) / 256;  // ceil(length / 256 bit)
     int length = num_byte_ks * 8;
+    int num_blocks = ((num_byte_ks * 8) + 255) / 256;  // ceil(length / 256 bit)
 
     for (int j = 0; j < num_blocks; j++) {
 
@@ -47,7 +39,7 @@ void tea5(uint32_t num_byte_ks,  const uint8_t ck[24],  const uint80_t iv, uint8
        memcpy(ks + offset, cipher, bytes_copy);
     }
 
-    /* Maschera i bit inutili dell’ultimo byte */
+    
     if(length % 8 != 0){
 
         int last_byte_index = (length - 1) / 8;

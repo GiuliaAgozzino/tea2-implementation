@@ -117,5 +117,14 @@ void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, int num_bytes,
     };
 
     uint80_t iv = formIVTEA5(ivc);
-    tea5((uint32_t)num_bytes, ck, iv, ks);
+
+    uint8_t ivx[24];
+    iv_expander(iv, ivx);
+
+    uint8_t ckm[24];
+    uint8_t ivm[24];
+    f(ck, ivx, ckm, ivm);
+
+    
+    tea5((uint32_t)num_bytes, ckm, ivm, ks);
 }
