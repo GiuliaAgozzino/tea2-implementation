@@ -63,11 +63,11 @@ void iv_expander(uint80_t iv, uint8_t ivx[24]);
 void f(const uint8_t ck[24], const uint8_t ivx[24], uint8_t ckm[24], uint8_t ivm[24]);
 
 // generazione key stream (usate da main)                  
-void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, int num_bytes,
+void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
                             int ts, int fn, int mn, int hnf,
                             int dir, int cc, int cn, int la);
 
-void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, int num_bytes,
+void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
                             int ts, int fn, int mn, int hnf,
                             int dir, int subs, int cn, int la,
                             int cc, int pdu);

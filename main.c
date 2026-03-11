@@ -96,7 +96,11 @@ int main(int argc, char *argv[])
     }
 
     /* Parsing argomenti comuni */
-    int num_bytes = parse_int(argv[3],  "nByte", 1,     65536);
+    uint32_t num_bytes = (uint32_t)strtoul(argv[3], NULL, 10);
+    if (num_bytes == 0) {
+    fprintf(stderr, "nByte deve essere almeno 1\n");
+    exit(1);
+}
     int ts        = parse_int(argv[4],  "ts",    1,     4    );
     int fn        = parse_int(argv[5],  "fn",    1,     18   );
     int mn        = parse_int(argv[6],  "mn",    1,     60   );

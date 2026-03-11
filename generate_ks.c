@@ -69,7 +69,7 @@ void hex_to_bytes(const char *hex, uint8_t *out, int len)
 }
 
 // TEA2
-void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, int num_bytes,
+void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
                             int ts, int fn, int mn, int hnf,
                             int dir, int cc, int cn, int la)
 {
@@ -91,11 +91,11 @@ void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, int num_bytes,
     iv_loading(iv, R);
     eck_loading(eck, K);
 
-    tea2((uint32_t)num_bytes, R, K, ks);
+    tea2(num_bytes, R, K, ks);
 }
 
 // TEA5
-void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, int num_bytes,
+void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
                             int ts, int fn, int mn, int hnf,
                             int dir, int subs, int cn, int la,
                             int cc, int pdu)
@@ -126,5 +126,5 @@ void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, int num_bytes,
     f(ck, ivx, ckm, ivm);
 
     
-    tea5((uint32_t)num_bytes, ckm, ivm, ks);
+    tea5(num_bytes, ckm, ivm, ks);
 }
