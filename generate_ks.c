@@ -91,6 +91,15 @@ void generateKeyStreamTEA2(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
     iv_loading(iv, R);
     eck_loading(eck, K);
 
+  
+    fprintf(stderr, "[TEA2] K = ");
+    for (int i = 0; i < 10; i++) fprintf(stderr, "%02X", K[i]);
+        fprintf(stderr, "\n");
+    fprintf(stderr, "[TEA2] R = ");
+    for (int i = 0; i < 8;  i++) fprintf(stderr, "%02X", R[i]);
+        fprintf(stderr, "\n");
+    
+
     tea2(num_bytes, R, K, ks);
 }
 
@@ -125,6 +134,12 @@ void generateKeyStreamTEA5(uint8_t ks[], const char *ck_hex, uint32_t num_bytes,
     uint8_t ivm[24];
     f(ck, ivx, ckm, ivm);
 
-    
+    fprintf(stderr, "[TEA5] CKM = ");
+    for (int i = 0; i < 24; i++) fprintf(stderr, "%02X", ckm[i]);
+        fprintf(stderr, "\n");
+    fprintf(stderr, "[TEA5] IVM = ");
+    for (int i = 0; i < 24; i++) fprintf(stderr, "%02X", ivm[i]);
+        fprintf(stderr, "\n");
+
     tea5(num_bytes, ckm, ivm, ks);
 }
