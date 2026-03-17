@@ -37,9 +37,7 @@ static void usage_tea5(const char *prog)
         prog);
 }
 
-/* Converte stringa in intero con controllo errori.
- * Termina il programma con messaggio se la stringa non è un intero valido
- * o se il valore è fuori dall'intervallo [min, max]. */
+
 static int parse_int(const char *s, const char *name, int min, int max)
 {
     char *end;
@@ -61,7 +59,7 @@ static int parse_int(const char *s, const char *name, int min, int max)
 
 int main(int argc, char *argv[])
 {
-    /* Controlla che ci sia almeno l'argomento dell'algoritmo */
+   
     if (argc < 2) {
         fprintf(stderr, "Errore: specificare 'TEA2' o 'TEA5' come primo argomento.\n");
         return EXIT_FAILURE;
@@ -75,11 +73,11 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    /* Controlla il numero di argomenti attesi */
+    // Controlla il numero di argomenti 
     if (is_tea2 && argc != 12) { usage_tea2(argv[0]); return EXIT_FAILURE; }
     if (is_tea5 && argc != 14) { usage_tea5(argv[0]); return EXIT_FAILURE; }
 
-    /* Validazione chiave */
+    // Validazione chiave
     const char *ck_hex   = argv[2];
     size_t      ck_len   = strlen(ck_hex);
     int         ck_prefix = (ck_len >= 2 && ck_hex[0] == '0' &&
@@ -95,7 +93,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    /* Parsing argomenti comuni */
+    // Argomenti comuni 
     uint32_t num_bytes = (uint32_t)strtoul(argv[3], NULL, 10);
     if (num_bytes == 0) {
     fprintf(stderr, "nByte deve essere almeno 1\n");
@@ -111,14 +109,14 @@ int main(int argc, char *argv[])
     int cn        = parse_int(argv[10], "cn",    0,     4095 );
     int la        = parse_int(argv[11], "la",    0,     16383);
 
-    /* Parsing argomenti specifici TEA5 */
+    // Argomenti specifici TEA5 
     int subs = 0, pdu = 0;
     if (is_tea5) {
         subs = parse_int(argv[12], "subs", 0, 1  );
         pdu  = parse_int(argv[13], "pdu",  0, 255);
     }
 
-    /* Generazione key stream */
+    // Generazione key stream 
     uint8_t *ks = malloc((size_t)num_bytes);
     if (ks == NULL) {
         fprintf(stderr, "Errore: allocazione memoria fallita\n");
@@ -133,7 +131,7 @@ int main(int argc, char *argv[])
                                ts, fn, mn, hnf, dir, subs, cn, la, cc, pdu);
     }
 
-    /* Stampa */
+    // Stampa
     printf("Key stream (%d byte):\n", num_bytes);
     for (int i = 0; i < num_bytes; i++) {
         printf("%02X", ks[i]);
